@@ -52,6 +52,18 @@ float Event::weightedIntensity(float unit)
     return unit*sum/wsum;
 }
 
+int Event::branch_mapping(TTree *newtree, const char *prefix)
+{
+    newtree->Branch(Form("%s%s", prefix, "runID"), &runID, Form("%s%s", prefix, "runID/I"));
+    newtree->Branch(Form("%s%s", prefix, "spillID"), &spillID, Form("%s%s", prefix, "spillID/I"));
+    newtree->Branch(Form("%s%s", prefix, "eventID"), &eventID, Form("%s%s", prefix, "eventID/I"));
+    newtree->Branch(Form("%s%s", prefix, "status"), &status, Form("%s%s", prefix, "status/I"));
+    newtree->Branch(Form("%s%s", prefix, "MATRIX1"), &MATRIX1, Form("%s%s", prefix, "MATRIX1/I"));
+    newtree->Branch(Form("%s%s", prefix, "weight"), &weight, Form("%s%s", prefix, "weight/F"));
+    newtree->Branch(Form("%s%s", prefix, "intensity"), intensity, Form("%s%s", prefix, "intensity[33]/F"));
+    return 0;
+}
+
 bool Dimuon::goodDimuon(int polarity)
 {
     if(fabs(dx) > 2. || fabs(dy) > 2.) return false;
@@ -78,6 +90,35 @@ bool Dimuon::dumpDimuon()
 {
     if(dz < 0. || dz > 150.) return false;
     return true;
+}
+
+int Dimuon::branch_mapping(TTree *newtree, const char *prefix)
+{
+    newtree->Branch(Form("%s%s", prefix, "dimuonID"), &dimuonID, Form("%s%s", prefix, "dimuonID/I"));
+    newtree->Branch(Form("%s%s", prefix, "posTrackID"), &posTrackID, Form("%s%s", prefix, "posTrackID/I"));
+    newtree->Branch(Form("%s%s", prefix, "negTrackID"), &negTrackID, Form("%s%s", prefix, "negTrackID/I"));
+    newtree->Branch(Form("%s%s", prefix, "chisq_dimuon"), &chisq_dimuon, Form("%s%s", prefix, "chisq_dimuon/F"));
+    newtree->Branch(Form("%s%s", prefix, "trackSeparation"), &trackSeparation, Form("%s%s", prefix, "trackSeparation/F"));
+    newtree->Branch(Form("%s%s", prefix, "dx"), &dx, Form("%s%s", prefix, "dx/F"));
+    newtree->Branch(Form("%s%s", prefix, "dy"), &dy, Form("%s%s", prefix, "dy/F"));
+    newtree->Branch(Form("%s%s", prefix, "dz"), &dz, Form("%s%s", prefix, "dz/F"));
+    newtree->Branch(Form("%s%s", prefix, "dpx"), &dpx, Form("%s%s", prefix, "dpx/F"));
+    newtree->Branch(Form("%s%s", prefix, "dpy"), &dpy, Form("%s%s", prefix, "dpy/F"));
+    newtree->Branch(Form("%s%s", prefix, "dpz"), &dpz, Form("%s%s", prefix, "dpz/F"));
+    newtree->Branch(Form("%s%s", prefix, "px1"), &px1, Form("%s%s", prefix, "px1/F"));
+    newtree->Branch(Form("%s%s", prefix, "py1"), &py1, Form("%s%s", prefix, "py1/F"));
+    newtree->Branch(Form("%s%s", prefix, "pz1"), &pz1, Form("%s%s", prefix, "pz1/F"));
+    newtree->Branch(Form("%s%s", prefix, "px2"), &px2, Form("%s%s", prefix, "px2/F"));
+    newtree->Branch(Form("%s%s", prefix, "py2"), &py2, Form("%s%s", prefix, "py2/F"));
+    newtree->Branch(Form("%s%s", prefix, "pz2"), &pz2, Form("%s%s", prefix, "pz2/F"));
+    newtree->Branch(Form("%s%s", prefix, "mass"), &mass, Form("%s%s", prefix, "mass/F"));
+    newtree->Branch(Form("%s%s", prefix, "xF"), &xF, Form("%s%s", prefix, "xF/F"));
+    newtree->Branch(Form("%s%s", prefix, "x1"), &x1, Form("%s%s", prefix, "x1/F"));
+    newtree->Branch(Form("%s%s", prefix, "x2"), &x2, Form("%s%s", prefix, "x2/F"));
+    newtree->Branch(Form("%s%s", prefix, "pT"), &pT, Form("%s%s", prefix, "pT/F"));
+    newtree->Branch(Form("%s%s", prefix, "costh"), &costh, Form("%s%s", prefix, "costh/F"));
+    newtree->Branch(Form("%s%s", prefix, "phi"), &phi, Form("%s%s", prefix, "phi/F"));
+    return 0;
 }
 
 Spill::Spill() : spillID(-1), quality(-1), targetPos(-1), TARGPOS_CONTROL(-1), nEvents(0), nTracks(0), nDimuons(0), skipflag(false)
@@ -245,6 +286,31 @@ void Spill::print()
     cout << " QIEUnit:           " << QIEUnit() << endl;
 }
 
+int Spill::branch_mapping(TTree *newtree, const char *prefix)
+{
+    newtree->Branch(Form("%s%s", prefix, "TSGo"), &TSGo, Form("%s%s", prefix, "TSGo/F"));
+    newtree->Branch(Form("%s%s", prefix, "acceptedMatrix1"), &acceptedMatrix1, Form("%s%s", prefix, "acceptedMatrix1/F"));
+    newtree->Branch(Form("%s%s", prefix, "afterInhMatrix1"), &afterInhMatrix1, Form("%s%s", prefix, "afterInhMatrix1/F"));
+    newtree->Branch(Form("%s%s", prefix, "NM3ION"), &NM3ION, Form("%s%s", prefix, "NM3ION/F"));
+    newtree->Branch(Form("%s%s", prefix, "G2SEM"), &G2SEM, Form("%s%s", prefix, "G2SEM/F"));
+    newtree->Branch(Form("%s%s", prefix, "QIESum"), &QIESum, Form("%s%s", prefix, "QIESum/F"));
+    newtree->Branch(Form("%s%s", prefix, "inhibitSum"), &inhibitSum, Form("%s%s", prefix, "inhibitSum/F"));
+    newtree->Branch(Form("%s%s", prefix, "busySum"), &busySum, Form("%s%s", prefix, "busySum/F"));
+    newtree->Branch(Form("%s%s", prefix, "dutyFactor"), &dutyFactor, Form("%s%s", prefix, "dutyFactor/F"));
+    newtree->Branch(Form("%s%s", prefix, "liveProton"), &liveProton, Form("%s%s", prefix, "liveProton/F"));
+    newtree->Branch(Form("%s%s", prefix, "spillID"), &spillID, Form("%s%s", prefix, "spillID/I"));
+    newtree->Branch(Form("%s%s", prefix, "quality"), &quality, Form("%s%s", prefix, "quality/I"));
+    newtree->Branch(Form("%s%s", prefix, "targetPos"), &targetPos, Form("%s%s", prefix, "targetPos/I"));
+    newtree->Branch(Form("%s%s", prefix, "TARGPOS_CONTROL"), &TARGPOS_CONTROL, Form("%s%s", prefix, "TARGPOS_CONTROL/I"));
+    newtree->Branch(Form("%s%s", prefix, "nEvents"), &nEvents, Form("%s%s", prefix, "nEvents/I"));
+    newtree->Branch(Form("%s%s", prefix, "nTracks"), &nTracks, Form("%s%s", prefix, "nTracks/I"));
+    newtree->Branch(Form("%s%s", prefix, "nDimuons"), &nDimuons, Form("%s%s", prefix, "nDimuons/I"));
+    newtree->Branch(Form("%s%s", prefix, "KMAG"), &KMAG, Form("%s%s", prefix, "KMAG/F"));
+    newtree->Branch(Form("%s%s", prefix, "MATRIX3Prescale"), &MATRIX3Prescale, Form("%s%s", prefix, "MATRIX3Prescale/I"));
+    newtree->Branch(Form("%s%s", prefix, "skipflag"), &skipflag, Form("%s%s", prefix, "skipflag/O"));
+    return 0;
+}
+
 bool Track::goodTrack()
 {
     if(nHits <= 14) return false;
@@ -270,4 +336,58 @@ bool Track::dumpTrack()
     if(chisq_target - chisq_dump < 10.) return false;
 
     return true;
+}
+
+int Track::branch_mapping(TTree *newtree, const char *prefix)
+{
+    newtree->Branch(Form("%s%s", prefix, "trackID"), &trackID, Form("%s%s", prefix, "trackID/I"));
+    newtree->Branch(Form("%s%s", prefix, "roadID"), &roadID, Form("%s%s", prefix, "roadID/I"));
+    newtree->Branch(Form("%s%s", prefix, "charge"), &charge, Form("%s%s", prefix, "charge/I"));
+    newtree->Branch(Form("%s%s", prefix, "nHits"), &nHits, Form("%s%s", prefix, "nHits/I"));
+    newtree->Branch(Form("%s%s", prefix, "nHitsSt1"), &nHitsSt1, Form("%s%s", prefix, "nHitsSt1/I"));
+    newtree->Branch(Form("%s%s", prefix, "nHitsSt2"), &nHitsSt2, Form("%s%s", prefix, "nHitsSt2/I"));
+    newtree->Branch(Form("%s%s", prefix, "nHitsSt3"), &nHitsSt3, Form("%s%s", prefix, "nHitsSt3/I"));
+    newtree->Branch(Form("%s%s", prefix, "nHitsSt4H"), &nHitsSt4H, Form("%s%s", prefix, "nHitsSt4H/I"));
+    newtree->Branch(Form("%s%s", prefix, "nHitsSt4V"), &nHitsSt4V, Form("%s%s", prefix, "nHitsSt4V/I"));
+    newtree->Branch(Form("%s%s", prefix, "chisq"), &chisq, Form("%s%s", prefix, "chisq/F"));
+    newtree->Branch(Form("%s%s", prefix, "chisq_dump"), &chisq_dump, Form("%s%s", prefix, "chisq_dump/F"));
+    newtree->Branch(Form("%s%s", prefix, "chisq_target"), &chisq_target, Form("%s%s", prefix, "chisq_target/F"));
+    newtree->Branch(Form("%s%s", prefix, "chisq_upstream"), &chisq_upstream, Form("%s%s", prefix, "chisq_upstream/F"));
+    newtree->Branch(Form("%s%s", prefix, "x1"), &x1, Form("%s%s", prefix, "x1/F"));
+    newtree->Branch(Form("%s%s", prefix, "y1"), &y1, Form("%s%s", prefix, "y1/F"));
+    newtree->Branch(Form("%s%s", prefix, "z1"), &z1, Form("%s%s", prefix, "z1/F"));
+    newtree->Branch(Form("%s%s", prefix, "x3"), &x3, Form("%s%s", prefix, "x3/F"));
+    newtree->Branch(Form("%s%s", prefix, "y3"), &y3, Form("%s%s", prefix, "y3/F"));
+    newtree->Branch(Form("%s%s", prefix, "z3"), &z3, Form("%s%s", prefix, "z3/F"));
+    newtree->Branch(Form("%s%s", prefix, "x0"), &x0, Form("%s%s", prefix, "x0/F"));
+    newtree->Branch(Form("%s%s", prefix, "y0"), &y0, Form("%s%s", prefix, "y0/F"));
+    newtree->Branch(Form("%s%s", prefix, "z0"), &z0, Form("%s%s", prefix, "z0/F"));
+    newtree->Branch(Form("%s%s", prefix, "xT"), &xT, Form("%s%s", prefix, "xT/F"));
+    newtree->Branch(Form("%s%s", prefix, "yT"), &yT, Form("%s%s", prefix, "yT/F"));
+    newtree->Branch(Form("%s%s", prefix, "zT"), &zT, Form("%s%s", prefix, "zT/F"));
+    newtree->Branch(Form("%s%s", prefix, "xD"), &xD, Form("%s%s", prefix, "xD/F"));
+    newtree->Branch(Form("%s%s", prefix, "yD"), &yD, Form("%s%s", prefix, "yD/F"));
+    newtree->Branch(Form("%s%s", prefix, "zD"), &zD, Form("%s%s", prefix, "zD/F"));
+    newtree->Branch(Form("%s%s", prefix, "px0"), &px0, Form("%s%s", prefix, "px0/F"));
+    newtree->Branch(Form("%s%s", prefix, "py0"), &py0, Form("%s%s", prefix, "py0/F"));
+    newtree->Branch(Form("%s%s", prefix, "pz0"), &pz0, Form("%s%s", prefix, "pz0/F"));
+    newtree->Branch(Form("%s%s", prefix, "px1"), &px1, Form("%s%s", prefix, "px1/F"));
+    newtree->Branch(Form("%s%s", prefix, "py1"), &py1, Form("%s%s", prefix, "py1/F"));
+    newtree->Branch(Form("%s%s", prefix, "pz1"), &pz1, Form("%s%s", prefix, "pz1/F"));
+    newtree->Branch(Form("%s%s", prefix, "px3"), &px3, Form("%s%s", prefix, "px3/F"));
+    newtree->Branch(Form("%s%s", prefix, "py3"), &py3, Form("%s%s", prefix, "py3/F"));
+    newtree->Branch(Form("%s%s", prefix, "pz3"), &pz3, Form("%s%s", prefix, "pz3/F"));
+    newtree->Branch(Form("%s%s", prefix, "pxT"), &pxT, Form("%s%s", prefix, "pxT/F"));
+    newtree->Branch(Form("%s%s", prefix, "pyT"), &pyT, Form("%s%s", prefix, "pyT/F"));
+    newtree->Branch(Form("%s%s", prefix, "pzT"), &pzT, Form("%s%s", prefix, "pzT/F"));
+    newtree->Branch(Form("%s%s", prefix, "pxD"), &pxD, Form("%s%s", prefix, "pxD/F"));
+    newtree->Branch(Form("%s%s", prefix, "pyD"), &pyD, Form("%s%s", prefix, "pyD/F"));
+    newtree->Branch(Form("%s%s", prefix, "pzD"), &pzD, Form("%s%s", prefix, "pzD/F"));
+    newtree->Branch(Form("%s%s", prefix, "pxv"), &pxv, Form("%s%s", prefix, "pxv/F"));
+    newtree->Branch(Form("%s%s", prefix, "pyv"), &pyv, Form("%s%s", prefix, "pyv/F"));
+    newtree->Branch(Form("%s%s", prefix, "pzv"), &pzv, Form("%s%s", prefix, "pzv/F"));
+    newtree->Branch(Form("%s%s", prefix, "tx_PT"), &tx_PT, Form("%s%s", prefix, "tx_PT/F"));
+    newtree->Branch(Form("%s%s", prefix, "ty_PT"), &ty_PT, Form("%s%s", prefix, "ty_PT/F"));
+    newtree->Branch(Form("%s%s", prefix, "thbend"), &thbend, Form("%s%s", prefix, "thbend/F"));
+    return 0;
 }

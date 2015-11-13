@@ -6,6 +6,7 @@
 #include <TObject.h>
 #include <TROOT.h>
 #include <TString.h>
+#include <TTree.h>
 
 class Event : public TObject
 {
@@ -16,6 +17,7 @@ public:
 
     void log(TString info) { std::cout << "RunID " << runID << ", spillID " << spillID << ", eventID " << eventID << ": " << info << std::endl; }
 
+    int branch_mapping(TTree *newtree, const char *prefix);
 public:
     int runID;
     int spillID;
@@ -25,7 +27,7 @@ public:
     int MATRIX1;
     float weight;
     float intensity[33];
-
+	
     ClassDef(Event, 4)
 };
 
@@ -35,7 +37,8 @@ public:
     bool goodDimuon(int polarity = 1);
     bool targetDimuon();
     bool dumpDimuon();
-
+    int branch_mapping(TTree *newtree, const char *prefix);
+	
 public:
     int dimuonID;
     int posTrackID, negTrackID;
@@ -66,7 +69,8 @@ public:
 
     float QIEUnit();
     float liveG2SEM();
-
+    int branch_mapping(TTree *newtree, const char *prefix);
+	
 public:
     float TSGo;
     float acceptedMatrix1;
@@ -102,7 +106,8 @@ public:
     bool goodTrack();
     bool targetTrack();
     bool dumpTrack();
-
+    int branch_mapping(TTree *newtree, const char *prefix);
+	
 public:
     int trackID;
     int roadID;
