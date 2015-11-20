@@ -64,6 +64,18 @@ int Event::branch_mapping(TTree *newtree, const char *prefix)
     return 0;
 }
 
+int Event::SetBranchAddress(TTree *newtree, const char *prefix)
+{
+    newtree->SetBranchAddress(Form("%s%s", prefix, "runID"), &runID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "spillID"), &spillID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "eventID"), &eventID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "status"), &status);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "MATRIX1"), &MATRIX1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "weight"), &weight);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "intensity"), intensity);
+    return 0;
+}
+
 bool Dimuon::goodDimuon(int polarity)
 {
     if(fabs(dx) > 2. || fabs(dy) > 2.) return false;
@@ -118,6 +130,35 @@ int Dimuon::branch_mapping(TTree *newtree, const char *prefix)
     newtree->Branch(Form("%s%s", prefix, "pT"), &pT, Form("%s%s", prefix, "pT/F"));
     newtree->Branch(Form("%s%s", prefix, "costh"), &costh, Form("%s%s", prefix, "costh/F"));
     newtree->Branch(Form("%s%s", prefix, "phi"), &phi, Form("%s%s", prefix, "phi/F"));
+    return 0;
+}
+
+int Dimuon::SetBranchAddress(TTree *newtree, const char *prefix)
+{
+    newtree->SetBranchAddress(Form("%s%s", prefix, "dimuonID"), &dimuonID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "posTrackID"), &posTrackID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "negTrackID"), &negTrackID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "chisq_dimuon"), &chisq_dimuon);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "trackSeparation"), &trackSeparation);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "dx"), &dx);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "dy"), &dy);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "dz"), &dz);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "dpx"), &dpx);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "dpy"), &dpy);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "dpz"), &dpz);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "px1"), &px1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "py1"), &py1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pz1"), &pz1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "px2"), &px2);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "py2"), &py2);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pz2"), &pz2);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "mass"), &mass);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "xF"), &xF);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "x1"), &x1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "x2"), &x2);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pT"), &pT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "costh"), &costh);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "phi"), &phi);
     return 0;
 }
 
@@ -311,6 +352,31 @@ int Spill::branch_mapping(TTree *newtree, const char *prefix)
     return 0;
 }
 
+int Spill::SetBranchAddress(TTree *newtree, const char *prefix)
+{
+    newtree->SetBranchAddress(Form("%s%s", prefix, "TSGo"), &TSGo);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "acceptedMatrix1"), &acceptedMatrix1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "afterInhMatrix1"), &afterInhMatrix1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "NM3ION"), &NM3ION);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "G2SEM"), &G2SEM);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "QIESum"), &QIESum);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "inhibitSum"), &inhibitSum);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "busySum"), &busySum);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "dutyFactor"), &dutyFactor);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "liveProton"), &liveProton);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "spillID"), &spillID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "quality"), &quality);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "targetPos"), &targetPos);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "TARGPOS_CONTROL"), &TARGPOS_CONTROL);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nEvents"), &nEvents);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nTracks"), &nTracks);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nDimuons"), &nDimuons);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "KMAG"), &KMAG);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "MATRIX3Prescale"), &MATRIX3Prescale);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "skipflag"), &skipflag);
+    return 0;
+}
+
 bool Track::goodTrack()
 {
     if(nHits <= 14) return false;
@@ -389,5 +455,59 @@ int Track::branch_mapping(TTree *newtree, const char *prefix)
     newtree->Branch(Form("%s%s", prefix, "tx_PT"), &tx_PT, Form("%s%s", prefix, "tx_PT/F"));
     newtree->Branch(Form("%s%s", prefix, "ty_PT"), &ty_PT, Form("%s%s", prefix, "ty_PT/F"));
     newtree->Branch(Form("%s%s", prefix, "thbend"), &thbend, Form("%s%s", prefix, "thbend/F"));
+    return 0;
+}
+
+int Track::SetBranchAddress(TTree *newtree, const char *prefix)
+{
+    newtree->SetBranchAddress(Form("%s%s", prefix, "trackID"), &trackID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "roadID"), &roadID);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "charge"), &charge);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nHits"), &nHits);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nHitsSt1"), &nHitsSt1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nHitsSt2"), &nHitsSt2);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nHitsSt3"), &nHitsSt3);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nHitsSt4H"), &nHitsSt4H);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "nHitsSt4V"), &nHitsSt4V);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "chisq"), &chisq);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "chisq_dump"), &chisq_dump);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "chisq_target"), &chisq_target);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "chisq_upstream"), &chisq_upstream);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "x1"), &x1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "y1"), &y1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "z1"), &z1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "x3"), &x3);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "y3"), &y3);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "z3"), &z3);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "x0"), &x0);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "y0"), &y0);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "z0"), &z0);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "xT"), &xT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "yT"), &yT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "zT"), &zT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "xD"), &xD);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "yD"), &yD);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "zD"), &zD);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "px0"), &px0);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "py0"), &py0);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pz0"), &pz0);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "px1"), &px1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "py1"), &py1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pz1"), &pz1);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "px3"), &px3);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "py3"), &py3);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pz3"), &pz3);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pxT"), &pxT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pyT"), &pyT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pzT"), &pzT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pxD"), &pxD);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pyD"), &pyD);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pzD"), &pzD);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pxv"), &pxv);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pyv"), &pyv);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "pzv"), &pzv);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "tx_PT"), &tx_PT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "ty_PT"), &ty_PT);
+    newtree->SetBranchAddress(Form("%s%s", prefix, "thbend"), &thbend);
     return 0;
 }
